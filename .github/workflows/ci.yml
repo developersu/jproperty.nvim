@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Tests (nvim ${{ matrix.nvim }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        nvim: [nightly, v0.11.7]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Neovim
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: .ci/neovim
+          key: nvim-${{ matrix.nvim }}-linux-x86_64
+
+      - name: Install Neovim
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p .ci/neovim
+          curl -sL "https://github.com/neovim/neovim/releases/download/${{ matrix.nvim }}/nvim-linux-x86_64.tar.gz" \
+            | tar xzf - --strip-components=1 -C "${PWD}/.ci/neovim"
+
+      - name: Run test suite
+        run: |
+          export PATH="${PWD}/.ci/neovim/bin:${PATH}"
+          nvim --version
+          ./tests/run.sh
