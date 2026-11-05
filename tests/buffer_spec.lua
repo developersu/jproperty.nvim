@@ -56,7 +56,7 @@ T.eq(dec[5], 'e=plain', 'decode: buffer ASCII unchanged')
 
 -- === testdata: real .properties file (already in escaped form) ===
 
-local data = vim.fn.readfile('/tests/testdata/test.properties')
+local data = vim.fn.readfile('tests/testdata/test.properties')
 
 -- Encoding an already-escaped file must be a no-op (pure ASCII in/out).
 local enc2 = transform(data, jproperty.encode)

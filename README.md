@@ -84,7 +84,7 @@ The plugin ships a self-contained headless test suite (no external dependencies)
 ./tests/run.sh
 ```
 
-It unit-tests the line-level codec (`tests/codec_spec.lua`) and the buffer-level API against a real `.properties` file (`tests/buffer_spec.lua`, `testdata/`).
+It unit-tests the line-level codec (`tests/codec_spec.lua`) and the buffer-level API against a real `.properties` file (`tests/buffer_spec.lua`, `tests/testdata/`).
 
 Continuous integration runs the same suite on every push and pull request via GitHub Actions (`.github/workflows/ci.yml`) against both Neovim nightly and the latest stable release.
 
@@ -95,7 +95,7 @@ plugin/jproperty.vim          – command definitions (auto-loaded by Neovim)
 lua/jproperty/init.lua        – buffer-level API (decode/encode of the whole buffer)
 lua/jproperty/codec.lua       – pure single-line codec logic
 tests/                        – headless test suite (run via tests/run.sh)
-testdata/                     – real .properties file used by the tests
+tests/testdata/                     – real .properties file used by the tests
 ```
 
 ## License
