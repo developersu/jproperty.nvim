@@ -72,6 +72,7 @@ The file is modified in place. Use `u` to undo.
 - **`:EncodeJavaProps` escapes every character with cp > U+007F** — that is all non-ASCII characters, including the U+0080–U+00FF range. This matches the escaping convention of Java's `Properties.store()`.
 - **Hex digits in generated escapes are uppercase** (`\u00E7`, `\uD83D`), which is the conventional style.
 - **`:DecodeJavaProps` decodes lowercase `\uXXXX` only.** Uppercase `\UXXXX`, invalid hex (`\uG131`), and all other backslash sequences (`\n`, `\t`, `\\`, a trailing `\`, …) are left untouched.
+- `:ToggleJavaProps` switches between Encode/Decode
 - **Lone surrogates** (`\uD800`–`\uDFFF` not part of a valid pair) are left untouched by `:DecodeJavaProps` to avoid producing invalid UTF-8.
 - **Malformed UTF-8**: an invalid lead byte is treated as a single-byte codepoint equal to its raw byte value, so e.g. a lone `0xC3` byte is encoded as `\u00C3`.
 - **Round-trip**: `:DecodeJavaProps` → `:EncodeJavaProps` is identity for every character with cp > U+007F. Encoding an already-escaped file is a no-op.
@@ -95,7 +96,7 @@ plugin/jproperty.vim          – command definitions (auto-loaded by Neovim)
 lua/jproperty/init.lua        – buffer-level API (decode/encode of the whole buffer)
 lua/jproperty/codec.lua       – pure single-line codec logic
 tests/                        – headless test suite (run via tests/run.sh)
-tests/testdata/                     – real .properties file used by the tests
+tests/testdata/               – real .properties file used by the tests
 ```
 
 ## License
